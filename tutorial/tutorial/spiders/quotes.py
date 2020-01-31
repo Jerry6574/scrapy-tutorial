@@ -16,3 +16,7 @@ path = r"C:\Users\wujun\OneDrive\Desktop\ScrapyTutorial\tutorial"
 subprocess.run("cd {0}".format(path), shell=True)
 subprocess.run("scrapy crawl quotes", shell=True)
 
+# to test css/xpath selectors, run scrapy shell
+# SelectorGadget useful for finding selectors
+# scrapy shell <url>
+
