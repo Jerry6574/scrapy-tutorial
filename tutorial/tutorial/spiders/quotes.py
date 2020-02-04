@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
-import subprocess
+from ..items import TutorialItem
+
 
 class QuotesSpider(scrapy.Spider):
     name = 'quotes'
@@ -8,15 +9,23 @@ class QuotesSpider(scrapy.Spider):
     start_urls = ['http://quotes.toscrape.com/']
 
     def parse(self, response):
-        title = response.css('title::text').extract()
-        yield {"title": title}
+        # title = response.css('title::text').extract_first()
+        # next_page = response.css("li.next a").xpath("@href").extract_first()  # can combine css and xpath selectors
 
+        items = TutorialItem()
 
-path = r"C:\Users\wujun\OneDrive\Desktop\ScrapyTutorial\tutorial"
-subprocess.run("cd {0}".format(path), shell=True)
-subprocess.run("scrapy crawl quotes", shell=True)
+        all_div_quotes = response.css('div.quote')
+        for quote in all_div_quotes:
+            title = quote.css('span.text::text').extract()
+            author = quote.css('.author::text').extract()
+            tag = quote.css(".tag::text").extract()
 
-# to test css/xpath selectors, run scrapy shell
-# SelectorGadget useful for finding selectors
-# scrapy shell <url>
+            items['title'] = title
+            items['author'] = author
+            items['tag'] = tag
 
+            yield items
+
+# scrapy crawl quotes -o items.json
+# scrapy crawl quotes -o items.csv
+# scrapy crawl quotes -o items.xml
