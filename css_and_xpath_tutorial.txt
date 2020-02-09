@@ -1,0 +1,7 @@
+//*[@id="Job_status"]/option[2]
+
+#domain
+
+#jobtable > tbody > tr:nth-child(1) > td:nth-child(3)
+
+#jobtable > tbody > tr:nth-child(1) > td:nth-child(6)
